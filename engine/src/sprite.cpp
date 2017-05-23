@@ -4,7 +4,9 @@
 
 using namespace engine;
 
-    Sprite::Sprite(std::string newDirectory){
+    Sprite::Sprite(std::string newDirectory, int width, int height){
+        lenght.first = width;
+        lenght.second = height;
         directory = newDirectory;
     }
 
@@ -25,8 +27,8 @@ using namespace engine;
             exit(-1);
         }
 
-        lenght.first = image->w;
-        lenght.second = image->h;
+        //lenght.first = image->w;
+        //lenght.second = image->h;
         SDL_FreeSurface(image);
 
     }
@@ -38,6 +40,7 @@ using namespace engine;
     }
 
     void Sprite::draw(int x, int y){
+        init();
         axis.first = x;
         axis.second = y;
          //Crop image

@@ -11,7 +11,7 @@ namespace engine{
     class Sprite{
     public:
         Sprite(){}
-        Sprite(std::string newDirectory);
+        Sprite(std::string newDirectory, int width, int height);
         virtual ~Sprite(){}
 
         virtual void init();
