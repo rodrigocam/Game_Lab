@@ -1,19 +1,25 @@
-cmake_minimum_required (VERSION 3.0.2)
-project(game_lab LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.0.2)
+project(mysticmaze LANGUAGES CXX)
 
-# Project directories
-set (PROJECT_INCLUDE_DIR "$(PROJECT_SOURCE_DIR)/inc")
-set (PROJECT_SRC_DIR "$(PROJECT_SOURCE_DIR)/src")
-set (PROJECT_ASSETS_DIR "$(PROJECT_SOURCE_DIR)/assets")
 
-# List of files
+
+# Set directory folders
+set (PROJECT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+set (PROJECT_SRC_DIR     "${PROJECT_SOURCE_DIR}/src")
+set (PROJECT_ASSETS_DIR  "${PROJECT_SOURCE_DIR}/assets")
+
+# Gets the list of files inside the src directory
 file(GLOB_RECURSE SOURCES "${PROJECT_SRC_DIR}/*.cpp"
                           "${PROJECT_SRC_DIR}/*.c")
 
-# Include headers
+# Include Headers
 include_directories("${PROJECT_INCLUDE_DIR}")
 
-# Compilation flags
+
+
+#### Compilation ####
+
+# Compilation Flags
 set(COMPILE_FLAGS "")
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
@@ -24,22 +30,38 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(COMPILE_FLAGS "${COMPILE_FLAGS} /Wall")
 endif()
 
-# CMake compilation flags redefinition
+# Cmake compilation flags redefinition
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILE_FLAGS}")
+
+
+
+#### Dependencies ####
 
 # Add engine
 set (PROJECT_ENGINE_DIR "${PROJECT_SOURCE_DIR}/engine")
 add_subdirectory(${PROJECT_ENGINE_DIR})
 include_directories(${ENGINE_INCLUDE_DIR})
 
-# Executable
-add_executable(game_lab ${SOURCES})
+# Add game
+set (PROJECT_GAME_DIR "${PROJECT_SOURCE_DIR}/game")
+add_subdirectory(${PROJECT_GAME_DIR})
+include_directories(${GAME_INCLUDE_DIR})
 
-target_link_libraries(game_lab
+
+
+#### Executable ####
+add_executable(mysticmaze ${SOURCES})
+
+target_link_libraries(mysticmaze
                       engine
+		              game
                       SDL2 SDL2_image SDL2_ttf SDL2_mixer)
 
+
+
+#### Custom Commands ####
+
 # Copy assets folder to build
-add_custom_command(TARGET game_lab POST_BUILD
+add_custom_command(TARGET mysticmaze POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-${PROJECT_ASSETS_DIR} ${CMAKE_BINARY_DIR}/assets)
+                   ${PROJECT_ASSETS_DIR} ${CMAKE_BINARY_DIR}/assets)
