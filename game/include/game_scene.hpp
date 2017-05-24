@@ -5,6 +5,7 @@
 #include "scene.hpp"
 #include "sprite.hpp"
 #include "player.hpp"
+#include "monster.hpp"
 
 class GameScene: public Scene{
 public:
@@ -17,6 +18,7 @@ public:
 
 private:
     Player* player;
+    Monster* monster;
     Sprite* background;
 };
 
