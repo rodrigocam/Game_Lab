@@ -9,16 +9,16 @@ GameScene::~GameScene(){}
 void GameScene::draw(){
     //background->init();
     background->draw(0, 0);
-    monster->draw();
-    player->draw();
+    //monster->draw();
+    //player->draw();
     for(auto gameObject : gameObjectsList) {
         (*gameObject).draw();
     }
 }
 
 void GameScene::update(double timeElapsed){
-    player->update(timeElapsed);
-    monster->update(timeElapsed);
+    //player->update(timeElapsed);
+    //monster->update(timeElapsed);
     for(auto gameObject : gameObjectsList) {
         (*gameObject).update(timeElapsed);
     }
@@ -26,10 +26,20 @@ void GameScene::update(double timeElapsed){
 
 void GameScene::load(){
     player = new Player("assets/player.png", 100, 0, 36, 36);
-    monster = new Monster("assets/minotaur.png", 200, 200, 80, 80);
+    monster = new Monster("assets/minotaur.png", 200, 250, 80, 80, "left");
     background = new Sprite("assets/maze_floor.jpg", 960, 600);
     wall = new Wall("assets/wall1.png", 200, 0, 35, 55);
     //wall2 = new Wall("assets/wall1.png", 200, 0, 73, 41);
+
+    gameObjectsList.push_back(player);
+    gameObjectsList.push_back(monster);
+
+    gameObjectsList.push_back(new Wall("assets/invisible_wall.png", 0, -1, 960, 1));
+    gameObjectsList.push_back(new Wall("assets/invisible_wall.png", 0, 570, 960, 1));
+
+    gameObjectsList.push_back(new Wall("assets/invisible_wall2.png", -1, 0, 1, 600));
+    gameObjectsList.push_back(new Wall("assets/invisible_wall2.png", 960, 0, 1, 600));
+
 
     gameObjectsList.push_back(new Wall("assets/wall2.png", -32, 350, 53, 26));
     gameObjectsList.push_back(new Wall("assets/wall2.png", 0, 350, 53, 26));

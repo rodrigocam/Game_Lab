@@ -2,7 +2,7 @@
 #include "input_manager.hpp"
 
 Monster::Monster(std::string objectName, double positionX, double positionY,
-                                     int width, int height) : GameObject(objectName,
+                                     int width, int height, std::string initialDirection) : GameObject(objectName,
                                                                          positionX,
                                                                          positionY,
                                                                          width, height){
@@ -17,6 +17,7 @@ Monster::Monster(std::string objectName, double positionX, double positionY,
     animator->addAction("idle_up",12,12);
     animator->addAction("idle_down",0,0);
     idleAnimationNumber = 0;
+    direction = initialDirection;
 }
 
 Monster::~Monster(){}
@@ -45,45 +46,47 @@ void Monster::draw(){
 }
 
 void Monster::walkInX(double & incX){
-    if(InputManager::instance.isKeyPressed(InputManager::KeyPress::KEY_PRESS_RIGHT)){
-        incX = incX;
-        idleAnimationNumber = 8;
-        animator->setInterval("right");
-    }
-    else if(InputManager::instance.isKeyPressed(InputManager::KeyPress::KEY_PRESS_LEFT)){
-        incX = incX * (0-1);
-        idleAnimationNumber = 4;
-        animator->setInterval("left");
-    }
-    else {
+    if(direction == "right"){
+        incX = incX * (1);
+        idleAnimationNumber = 5;
+        animator->setInterval(direction);
+    }else if(direction == "left"){
+        incX = incX * (-1);
+        idleAnimationNumber = 0;
+        animator->setInterval(direction);
+    }else {
         incX = 0;
     }
     setPositionX(getPositionX()+incX);
     if(CollisionManager::instance.verifyCollisionWithWalls(this)){
+        if(direction == "left"){
+          direction = "right";
+        }else{
+          direction = "left";
+        }
         setPositionX(getPositionX()+(incX*(0-1)));
     }
 }
 
 void Monster::walkInY(double & incY, double incX){
-    if(InputManager::instance.isKeyPressed(InputManager::KeyPress::KEY_PRESS_UP)){
-        incY = incY * (0-1);
-        idleAnimationNumber = 12;
-        if(incX == 0){
-            animator->setInterval("up");
-        }
-    }
-    else if(engine::InputManager::instance.isKeyPressed(engine::InputManager::KeyPress::KEY_PRESS_DOWN)){
-        incY = incY;
+    if(direction == "down"){
+        incY = incY * (1);
+        idleAnimationNumber = 5;
+        animator->setInterval(direction);
+    }else if(direction == "up"){
+        incY = incY * (-1);
         idleAnimationNumber = 0;
-        if(incX == 0){
-            animator->setInterval("down");
-        }
-    }
-    else {
+        animator->setInterval(direction);
+    }else {
         incY = 0;
     }
     setPositionY(getPositionY()+incY);
     if(CollisionManager::instance.verifyCollisionWithWalls(this)){
+        if(direction == "down"){
+          direction = "up";
+        }else{
+          direction = "down";
+        }
         setPositionY(getPositionY()+(incY*(0-1)));
     }
 }

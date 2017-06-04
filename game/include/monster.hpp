@@ -11,7 +11,7 @@ using namespace engine;
 class Monster: public GameObject{
 public:
     Monster(std::string objectName, double positionX, double positionY,
-                                         int width, int height);
+                                         int width, int height, std::string initialDirection);
     ~Monster();
     void update(double timeElapsed);
     void draw();
@@ -21,6 +21,7 @@ private:
     int idleAnimationNumber;
     void walkInX(double & incX);
     void walkInY(double & incY, double incX);
+    std::string direction;
 };
 
 
