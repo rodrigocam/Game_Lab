@@ -8,6 +8,7 @@ using namespace engine;
         lenght.first = width;
         lenght.second = height;
         directory = newDirectory;
+        init();
     }
 
     void Sprite::init(){
@@ -40,7 +41,6 @@ using namespace engine;
     }
 
     void Sprite::draw(int x, int y){
-        init();
         axis.first = x;
         axis.second = y;
          //Crop image

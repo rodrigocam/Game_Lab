@@ -13,7 +13,7 @@ namespace engine{
         ~GameObject();
 
         virtual void draw();
-        virtual void update();
+        virtual void update(double timeElapsed);
 
         std::string getName();
         double getPositionX();

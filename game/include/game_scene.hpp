@@ -6,6 +6,8 @@
 #include "sprite.hpp"
 #include "player.hpp"
 #include "monster.hpp"
+#include "wall.hpp"
+#include <typeinfo>
 
 class GameScene: public Scene{
 public:
@@ -13,12 +15,15 @@ public:
     ~GameScene();
 
     void load();
+    void unload();
     void draw();
     void update(double timeElapsed);
 
 private:
+    std::vector<GameObject*> gameObjectsList;
     Player* player;
     Monster* monster;
+    Wall* wall;
     Sprite* background;
 };
 

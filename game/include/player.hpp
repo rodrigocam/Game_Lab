@@ -4,6 +4,7 @@
 #include "input_manager.hpp"
 #include "animation.hpp"
 #include "engine.hpp"
+#include "collision_manager.hpp"
 
 using namespace engine;
 
@@ -17,6 +18,9 @@ public:
 
 private:
     Animation* animator;
+    int idleAnimationNumber;
+    void walkInX(double & incX);
+    void walkInY(double & incY, double incX);
 };
 
 #endif
